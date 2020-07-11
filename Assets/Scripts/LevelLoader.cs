@@ -20,20 +20,17 @@ public class LevelLoader : MonoBehaviour
     void Update()
     {
 
-        /*if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             LoadNextLevel();
-        }*/
-    }
+        }
 
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
-        LoadNextLevel();
     }
 
     public void LoadNextLevel()
     {
         StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
+
     }
 
     IEnumerator LoadLevel(int levelIndex)
