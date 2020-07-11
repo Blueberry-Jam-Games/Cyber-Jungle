@@ -12,6 +12,10 @@ public class PlayerMovement : MonoBehaviour
     //public LayerMask notGrappleable;
 
     private Rigidbody2D rb2d;
+    private Animator anim;
+
+    //0 is idle, 1 is run
+    private int animationState = 0;
 
     private Vector3 targetPos;
     
@@ -24,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -58,6 +63,30 @@ public class PlayerMovement : MonoBehaviour
 
         float xMove = Input.GetAxisRaw("Horizontal") * speed;
         rb2d.velocity = new Vector2(xMove, rb2d.velocity.y + deltaYvel);
+
+        anim.SetFloat("Speed", xMove / 5);
+
+        Vector3 rotation = transform.eulerAngles;
+        if(xMove < 0)
+        {
+            rotation.y = 180.0f;
+        }
+        else
+        {
+            rotation.y = 0.0f;
+        }
+        transform.rotation = Quaternion.Euler(rotation);
+
+        if(Mathf.Abs(xMove) > 0.01f && animationState == 0)
+        {
+            anim.SetTrigger("Run");
+            animationState = 1;
+        }
+        else if(animationState == 1)
+        {
+            animationState = 0;
+            anim.SetTrigger("Stop");
+        }
 
         //Grappling Hook
         if (grapplePressed)
