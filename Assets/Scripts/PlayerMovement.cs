@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 5.0f;
+    public float speed = 3.0f;
+    public float runSpeed = 5.0f;
     public float jumpVelocity = 20.0f;
     public float throwSpeed = 10.0f;
 
@@ -13,9 +14,6 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb2d;
     private Animator anim;
-
-    //0 is idle, 1 is run
-    private int animationState = 0;
 
     private Vector3 targetPos;
     
@@ -47,10 +45,19 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
 
+        float xMove = BaseMovement();
+
+        CheckRotation(xMove);
+
+        CheckGrapplingHook();
+    }
+
+    private float BaseMovement()
+    {
         //Base Movement -----------------------------
         float deltaYvel = 0;
         //Only do jump first frame
-        if(jumpPressed)
+        if (jumpPressed)
         {
             jumpPressed = false;
             //Debug.Log("Key down");
@@ -61,38 +68,42 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        float xMove = Input.GetAxisRaw("Horizontal") * speed;
-        rb2d.velocity = new Vector2(xMove, rb2d.velocity.y + deltaYvel);
+        float multiplier = speed;
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            multiplier = runSpeed;
+            Debug.Log("Run");
+        }
 
-        anim.SetFloat("Speed", xMove / 5);
+        float xMove = Input.GetAxisRaw("Horizontal") * multiplier;
+        rb2d.velocity = new Vector2(xMove, rb2d.velocity.y + deltaYvel);
+        return xMove;
+    }
+
+    private void CheckRotation(float xMove)
+    {
+        anim.SetFloat("Speed", Mathf.Abs(xMove / 5));
+        Debug.Log("XMOVE: " + xMove / 5);
 
         Vector3 rotation = transform.eulerAngles;
-        if(xMove < 0)
+        if (xMove < 0.0f)
         {
             rotation.y = 180.0f;
         }
-        else
+        else if (xMove > 0.0f)
         {
             rotation.y = 0.0f;
         }
         transform.rotation = Quaternion.Euler(rotation);
+    }
 
-        if(Mathf.Abs(xMove) > 0.01f && animationState == 0)
-        {
-            anim.SetTrigger("Run");
-            animationState = 1;
-        }
-        else if(animationState == 1)
-        {
-            animationState = 0;
-            anim.SetTrigger("Stop");
-        }
-
+    private void CheckGrapplingHook()
+    {
         //Grappling Hook
         if (grapplePressed)
         {
             grapplePressed = false;
-            if(GameObject.FindGameObjectWithTag("hook") == null)
+            if (GameObject.FindGameObjectWithTag("hook") == null)
             {
                 Vector3 delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
                 float theta = Mathf.Atan2(delta.y, delta.x);
@@ -109,7 +120,7 @@ public class PlayerMovement : MonoBehaviour
 
                 GameObject currentHook = Instantiate(hookRef, position, Quaternion.Euler(new Vector3(0, 0, z)));
                 GrapplingHook gh = currentHook.GetComponent<GrapplingHook>();
-                
+
                 gh.InitialVelocity(vel.x, vel.y, this.gameObject);
             }
         }
