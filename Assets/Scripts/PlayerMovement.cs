@@ -24,11 +24,15 @@ public class PlayerMovement : MonoBehaviour
     private bool jumpPressed = false;
     private bool grapplePressed = false;
 
+    private UIController hudRef;
+
     // Start is called before the first frame update
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        GameObject hud = GameObject.FindWithTag("Hud");
+        hudRef = hud.GetComponent<UIController>();
     }
 
     // Update is called once per frame
@@ -66,21 +70,29 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("Key down");
             if (onGround)
             {
-                //Debug.Log("On ground");
-                deltaYvel = jumpVelocity;
-                anim.SetTrigger("Jumped");
+                if (hudRef.GetJumps() > 0)
+                {
+                    //Debug.Log("On ground");
+                    deltaYvel = jumpVelocity;
+                    anim.SetTrigger("Jumped");
+                    hudRef.NotifyJump();
+                }
             }
         }
 
         float multiplier = speed;
+        bool run = false;
         if (Input.GetKey(KeyCode.LeftShift))
         {
             multiplier = runSpeed;
+            run = true;
             //Debug.Log("Run");
         }
 
         float xMove = Input.GetAxisRaw("Horizontal") * multiplier;
+
         rb2d.velocity = new Vector2(xMove, rb2d.velocity.y + deltaYvel);
+
         if (xMove != 0 && onGround == true)
             makeFootNoises();
         return xMove;
@@ -131,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
         {
             grapplePressed = false;
             
-            if (GameObject.FindGameObjectWithTag("hook") == null)
+            if (GameObject.FindGameObjectWithTag("hook") == null && hudRef.GetGrapples() > 0)
             {
                 Vector3 delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
                 float theta = Mathf.Atan2(delta.y, delta.x);
@@ -152,6 +164,7 @@ public class PlayerMovement : MonoBehaviour
                 gh.InitialVelocity(vel.x, vel.y, this.gameObject);
                 SoundManagerScript.PlaySound("woosh");
                 anim.SetTrigger("Grapple");
+                hudRef.NotifyGrapple();
             }
         }
     }
