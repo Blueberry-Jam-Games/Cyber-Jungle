@@ -151,6 +151,7 @@ public class PlayerMovement : MonoBehaviour
 
                 gh.InitialVelocity(vel.x, vel.y, this.gameObject);
                 SoundManagerScript.PlaySound("woosh");
+                anim.SetTrigger("Grapple");
             }
         }
     }
