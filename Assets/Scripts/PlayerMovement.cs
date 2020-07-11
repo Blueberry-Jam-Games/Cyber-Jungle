@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody2D rb2d;
-    private DistanceJoint2D grappeling;
-
-    private Vector3 targetPos;
-
     public float speed = 5.0f;
     public float jumpVelocity = 20.0f;
+    public float throwSpeed = 10.0f;
 
-    public LayerMask notGrappleable;
+    public GameObject hookRef;
+    //public LayerMask notGrappleable;
+
+    private Rigidbody2D rb2d;
+
+    private Vector3 targetPos;
     
     private bool onGround = false;
 
@@ -23,8 +24,6 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        grappeling = GetComponent<DistanceJoint2D>();
-        grappeling.enabled = false;
     }
 
     // Update is called once per frame
@@ -43,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
 
-        //Base Movement
+        //Base Movement -----------------------------
         float deltaYvel = 0;
         //Only do jump first frame
         if(jumpPressed)
@@ -60,25 +59,31 @@ public class PlayerMovement : MonoBehaviour
         float xMove = Input.GetAxisRaw("Horizontal") * speed;
         rb2d.velocity = new Vector2(xMove, rb2d.velocity.y + deltaYvel);
 
-        //Grappeling Hook
-        /*if (grapplePressed)
+        //Grappling Hook
+        if (grapplePressed)
         {
-            Debug.Log("Start grapple");
             grapplePressed = false;
-            targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            targetPos.z = 0;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, targetPos - transform.position, 7, notGrappleable);
-
-            if(hit.collider != null)
+            if(GameObject.FindGameObjectWithTag("hook") == null)
             {
-                if(hit.collider.gameObject.GetComponent<Rigidbody2D>() != null)
-                {
-                    grappeling.enabled = true;
-                    grappeling.connectedBody = hit.collider.gameObject.GetComponent<Rigidbody2D>();
-                    grappeling.distance = Vector2.Distance(transform.position, hit.point);
-                }
+                Vector3 delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                float theta = Mathf.Atan2(delta.y, delta.x);
+
+                float velX = Mathf.Cos(theta) * throwSpeed;
+                float velY = Mathf.Sin(theta) * throwSpeed;
+
+                Vector2 vel = new Vector2(velX, velY);
+                Vector3 position = this.transform.position;
+
+                Debug.Log("Delta: " + delta + " Theta " + theta + " Rotation " + Mathf.Rad2Deg * -theta);
+
+                float z = Mathf.Rad2Deg * theta + 90.0f;
+
+                GameObject currentHook = Instantiate(hookRef, position, Quaternion.Euler(new Vector3(0, 0, z)));
+                GrapplingHook gh = currentHook.GetComponent<GrapplingHook>();
+                
+                gh.InitialVelocity(vel.x, vel.y, this.gameObject);
             }
-        }*/
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
