@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7868931436951099925}
   - component: {fileID: 7868931436951099924}
   - component: {fileID: 6495333882994734883}
-  - component: {fileID: 5842331688635528475}
+  - component: {fileID: 2247285571019051317}
   - component: {fileID: 1396509921474693810}
   m_Layer: 10
   m_Name: GrapplingHook
@@ -147,8 +147,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   breakDistance: 0.6
   maxDistance: 5
---- !u!231 &5842331688635528475
-SpringJoint2D:
+--- !u!232 &2247285571019051317
+DistanceJoint2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -165,8 +165,7 @@ SpringJoint2D:
   m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 0
   m_Distance: 0.25
-  m_DampingRatio: 0.5
-  m_Frequency: 8
+  m_MaxDistanceOnly: 1
 --- !u!120 &1396509921474693810
 LineRenderer:
   m_ObjectHideFlags: 0

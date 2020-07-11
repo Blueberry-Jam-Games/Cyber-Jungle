@@ -8,7 +8,7 @@ public class GrapplingHook : MonoBehaviour
     public float maxDistance = 7.0f;
 
     private Rigidbody2D rb2d;
-    private SpringJoint2D dj2d;
+    private DistanceJoint2D dj2d;
     private LineRenderer chain;
 
     private float dx, dy;
@@ -20,7 +20,7 @@ public class GrapplingHook : MonoBehaviour
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
-        dj2d = GetComponent<SpringJoint2D>();
+        dj2d = GetComponent<DistanceJoint2D>();
         dj2d.enabled = false;
         rb2d.bodyType = RigidbodyType2D.Dynamic;
         dj2d.autoConfigureDistance = false;
