@@ -21,8 +21,6 @@ public class UIController : MonoBehaviour
     private Slider jumpSlide;
     private Slider grappleSlide;
 
-    private bool runMode = false;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -46,9 +44,9 @@ public class UIController : MonoBehaviour
         jumpSlide.value -= 1;
     }
 
-    public void NotifyMoveLeft(float distance)
+    public void NotifyMoveLeft(float distance, bool run)
     {
-        if (runMode)
+        if (run)
         {
             leftRunSlide.value -= distance;
         }
@@ -58,9 +56,9 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void NotifyMoveRight(float distance)
+    public void NotifyMoveRight(float distance, bool run)
     {
-        if (runMode)
+        if (run)
         {
             rightRunSlide.value -= distance;
         }

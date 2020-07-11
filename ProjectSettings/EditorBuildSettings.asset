@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/TestLevel.unity
     guid: f709092fe025ca4438971f398692ed5a
   - enabled: 1
@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/New Scene.unity
     guid: 5b732ed012f666342b6c578eedb7accf
+  - enabled: 1
+    path: Assets/Scenes/GrapplingTest.unity
+    guid: 487845930aa76ec4080115dffab47732
   m_configObjects: {}

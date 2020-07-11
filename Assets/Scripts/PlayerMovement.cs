@@ -91,11 +91,73 @@ public class PlayerMovement : MonoBehaviour
 
         float xMove = Input.GetAxisRaw("Horizontal") * multiplier;
 
+        xMove = ApplyRestrictions(xMove, run);
+
         rb2d.velocity = new Vector2(xMove, rb2d.velocity.y + deltaYvel);
 
         if (xMove != 0 && onGround == true)
             makeFootNoises();
         return xMove;
+    }
+
+    private float ApplyRestrictions(float movement, bool run)
+    {
+        if(movement > 0 && run)
+        {
+            if(hudRef.GetRunRight() > 0)
+            {
+                Debug.Log("run right");
+                hudRef.NotifyMoveRight(movement, run);
+                return movement;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else if(movement > 0 && !run)
+        {
+            if (hudRef.GetWalksRight() > 0)
+            {
+                Debug.Log("Walk right");
+                hudRef.NotifyMoveRight(movement, run);
+                return movement;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else if (movement < 0 && run)
+        {
+            if (hudRef.GetRunLeft() > 0)
+            {
+                Debug.Log("Run left");
+                hudRef.NotifyMoveLeft(Mathf.Abs(movement), run);
+                return movement;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else if (movement < 0 && !run)
+        {
+            if (hudRef.GetWalksLeft() > 0)
+            {
+                Debug.Log("Walk left");
+                hudRef.NotifyMoveLeft(Mathf.Abs(movement), run);
+                return movement;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return movement;
+        }
     }
 
     private void InformAnimations(float xMove)

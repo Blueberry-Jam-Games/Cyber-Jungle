@@ -11,7 +11,7 @@ public class LevelLoader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     public float transitionTime = 1f;
@@ -20,17 +20,20 @@ public class LevelLoader : MonoBehaviour
     void Update()
     {
 
-        if(Input.GetMouseButtonDown(0))
+        /*if (Input.GetMouseButtonDown(0))
         {
             LoadNextLevel();
-        }
-                       
+        }*/
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        LoadNextLevel();
     }
 
     public void LoadNextLevel()
     {
         StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
-    
     }
 
     IEnumerator LoadLevel(int levelIndex)
