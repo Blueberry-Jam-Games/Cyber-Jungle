@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class GrapplingHook : MonoBehaviour
 {
+    public float breakDistance = 0.6f;
+    public float maxDistance = 7.0f;
+
     private Rigidbody2D rb2d;
     private SpringJoint2D dj2d;
+    private LineRenderer chain;
 
     private float dx, dy;
     private GameObject playerRef;
@@ -21,6 +25,7 @@ public class GrapplingHook : MonoBehaviour
         rb2d.bodyType = RigidbodyType2D.Dynamic;
         dj2d.autoConfigureDistance = false;
         rb2d.velocity = new Vector3(dx, dy, 0f);
+        chain = GetComponent<LineRenderer>();
     }
 
     public void InitialVelocity(float dx, float dy, GameObject playerRef)
@@ -32,7 +37,7 @@ public class GrapplingHook : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Collision Enter");
+        //Debug.Log("Collision Enter");
         if(collision.gameObject.tag == "grapple")
         {
             rb2d.bodyType = RigidbodyType2D.Static;
@@ -50,7 +55,13 @@ public class GrapplingHook : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-    
+
+    public void Update()
+    {
+        chain.SetPosition(0, this.transform.position);
+        chain.SetPosition(1, playerRef.transform.position);
+    }
+
     private void FixedUpdate()
     {
         if (!active)
@@ -62,6 +73,25 @@ public class GrapplingHook : MonoBehaviour
             //Debug.Log("Target is " + tgt);
 
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, z));
+
+            float distance = Vector3.Distance(transform.position, playerRef.transform.position);
+            if(distance >= maxDistance)
+            {
+                Debug.Log("Gravity");
+                rb2d.gravityScale = 0.7f;
+            }
+
+        }
+        else
+        {
+            //Debug.Log("Active");
+            float distance = Vector3.Distance(transform.position, playerRef.transform.position);
+            //Debug.Log("Distance is " + distance);
+            if(distance <= breakDistance)
+            {
+                playerRef.gameObject.GetComponent<PlayerMovement>().NotifyGrappleSuccess();
+                Destroy(this.gameObject);
+            }
         }
     }
 }

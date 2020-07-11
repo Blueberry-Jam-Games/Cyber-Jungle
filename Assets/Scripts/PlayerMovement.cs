@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
                 Vector2 vel = new Vector2(velX, velY);
                 Vector3 position = this.transform.position;
 
-                Debug.Log("Delta: " + delta + " Theta " + theta + " Rotation " + Mathf.Rad2Deg * -theta);
+                //Debug.Log("Delta: " + delta + " Theta " + theta + " Rotation " + Mathf.Rad2Deg * -theta);
 
                 float z = Mathf.Rad2Deg * theta + 90.0f;
 
@@ -84,6 +84,11 @@ public class PlayerMovement : MonoBehaviour
                 gh.InitialVelocity(vel.x, vel.y, this.gameObject);
             }
         }
+    }
+
+    public void NotifyGrappleSuccess()
+    {
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
