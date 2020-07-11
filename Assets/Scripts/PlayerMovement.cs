@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
         float xMove = BaseMovement();
 
         CheckRotation(xMove);
+        InformAnimations(xMove);
 
         CheckGrapplingHook();
     }
@@ -65,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 //Debug.Log("On ground");
                 deltaYvel = jumpVelocity;
+                anim.SetTrigger("Jumped");
             }
         }
 
@@ -72,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             multiplier = runSpeed;
-            Debug.Log("Run");
+            //Debug.Log("Run");
         }
 
         float xMove = Input.GetAxisRaw("Horizontal") * multiplier;
@@ -80,10 +82,15 @@ public class PlayerMovement : MonoBehaviour
         return xMove;
     }
 
-    private void CheckRotation(float xMove)
+    private void InformAnimations(float xMove)
     {
         anim.SetFloat("Speed", Mathf.Abs(xMove / 5));
-        Debug.Log("XMOVE: " + xMove / 5);
+        anim.SetBool("InAir", !onGround);
+    }
+
+    private void CheckRotation(float xMove)
+    {
+        //Debug.Log("XMOVE: " + xMove / 5);
 
         Vector3 rotation = transform.eulerAngles;
         if (xMove < 0.0f)
