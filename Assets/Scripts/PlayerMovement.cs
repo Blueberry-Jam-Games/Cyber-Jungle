@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 targetPos;
     
     private bool onGround = false;
+    
+    private int stepNumber = 0;
 
     private bool jumpPressed = false;
     private bool grapplePressed = false;
@@ -79,6 +81,8 @@ public class PlayerMovement : MonoBehaviour
 
         float xMove = Input.GetAxisRaw("Horizontal") * multiplier;
         rb2d.velocity = new Vector2(xMove, rb2d.velocity.y + deltaYvel);
+        if (xMove != 0 && onGround == true)
+            makeFootNoises();
         return xMove;
     }
 
@@ -103,6 +107,22 @@ public class PlayerMovement : MonoBehaviour
         }
         transform.rotation = Quaternion.Euler(rotation);
     }
+    
+    private void makeFootNoises() 
+    {   
+        
+        if (stepNumber == 15)
+            SoundManagerScript.PlaySound("step1");
+        else if (stepNumber == 30)
+            SoundManagerScript.PlaySound("step2");
+        else if (stepNumber == 45)
+            SoundManagerScript.PlaySound("step3");
+            
+        stepNumber += 1;
+        if (stepNumber == 46)
+            stepNumber = 1;
+        
+    }
 
     private void CheckGrapplingHook()
     {
@@ -110,6 +130,7 @@ public class PlayerMovement : MonoBehaviour
         if (grapplePressed)
         {
             grapplePressed = false;
+            
             if (GameObject.FindGameObjectWithTag("hook") == null)
             {
                 Vector3 delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
@@ -129,6 +150,7 @@ public class PlayerMovement : MonoBehaviour
                 GrapplingHook gh = currentHook.GetComponent<GrapplingHook>();
 
                 gh.InitialVelocity(vel.x, vel.y, this.gameObject);
+                SoundManagerScript.PlaySound("woosh");
             }
         }
     }
