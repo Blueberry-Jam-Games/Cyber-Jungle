@@ -14,14 +14,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/New Scene.unity
     guid: 5b732ed012f666342b6c578eedb7accf
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/GrapplingTest.unity
     guid: 487845930aa76ec4080115dffab47732
   - enabled: 1
     path: Assets/TestLevel.unity
     guid: f709092fe025ca4438971f398692ed5a
-    path: Assets/level3.unity
-    guid: b9bf2e083d6393f4c891323dfa3eb6b3
   - enabled: 1
     path: Assets/level2.unity
     guid: 272f655ee082d6e47995580954111cf4

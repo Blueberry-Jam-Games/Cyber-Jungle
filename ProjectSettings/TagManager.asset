@@ -9,6 +9,7 @@ TagManager:
   - grapple
   - nograpple
   - Hud
+  - Portal
   layers:
   - Default
   - TransparentFX

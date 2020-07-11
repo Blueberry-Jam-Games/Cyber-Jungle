@@ -46,6 +46,23 @@ public class PlayerMovement : MonoBehaviour
         {
             grapplePressed = true;
         }
+
+        //Check death condition
+        if(hudRef.GetJumps() < 1 && hudRef.GetGrapples() < 1 && hudRef.GetWalksLeft() < Mathf.Epsilon && 
+            hudRef.GetWalksRight() < Mathf.Epsilon && hudRef.GetRunLeft() < Mathf.Epsilon && hudRef.GetRunRight() < Mathf.Epsilon)
+        {
+            DoDeath();
+        }
+        else if (Input.GetKey(KeyCode.Q))
+        {
+            DoDeath();
+        }
+    }
+
+    private void DoDeath()
+    {
+        //Play sound effect.
+        GameObject.FindGameObjectWithTag("Portal").GetComponent<LevelLoader>().ReloadLevel();
     }
 
     private void FixedUpdate()
