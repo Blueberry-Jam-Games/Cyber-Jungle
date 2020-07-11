@@ -18,9 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 targetPos;
     
     private bool onGround = false;
-
-    private bool grappleOut = false;
-    private int frame = 0;
+    
     private int stepNumber = 0;
 
     private bool jumpPressed = false;
@@ -132,10 +130,7 @@ public class PlayerMovement : MonoBehaviour
         if (grapplePressed)
         {
             grapplePressed = false;
-            if (grappleOut = false){
-                SoundManagerScript.PlaySound ("woosh");
-                grappleOut = true;
-            }
+            
             if (GameObject.FindGameObjectWithTag("hook") == null)
             {
                 Vector3 delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
@@ -155,6 +150,7 @@ public class PlayerMovement : MonoBehaviour
                 GrapplingHook gh = currentHook.GetComponent<GrapplingHook>();
 
                 gh.InitialVelocity(vel.x, vel.y, this.gameObject);
+                SoundManagerScript.PlaySound("woosh");
             }
         }
     }
@@ -167,7 +163,6 @@ public class PlayerMovement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         onGround = true;
-        grappleOut = false;
         //Debug.Log("On Ground");
     }
 

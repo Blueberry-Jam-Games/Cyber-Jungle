@@ -18,8 +18,7 @@ public class SoundManagerScript : MonoBehaviour
         wooshSound = Resources.Load<AudioClip> ("woosh");
 
         audioSrc = GetComponent<AudioSource> ();
-
-
+        
     }
 
     // Update is called once per frame
