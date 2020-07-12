@@ -36,7 +36,15 @@ public class UIController : MonoBehaviour
 
     public void Update()
     {
-        SetRunMode(Input.GetKey(KeyCode.LeftShift));
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            SetRunMode(true);
+        }
+        else
+        {
+            SetRunMode(false);
+        }
+        
     }
 
     public void NotifyJump()

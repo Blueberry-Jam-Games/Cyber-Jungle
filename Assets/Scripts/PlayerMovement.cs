@@ -111,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
 
         float multiplier = speed;
         bool run = false;
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
             multiplier = runSpeed;
             run = true;
