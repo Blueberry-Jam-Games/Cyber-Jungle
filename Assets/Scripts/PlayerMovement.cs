@@ -69,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
         hudRef.ApplyPowerup();
     }
 
-    private void DoDeath()
+    public void DoDeath()
     {
         //Play sound effect.
         SoundManagerScript.PlaySound("death");
@@ -135,7 +135,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if(hudRef.GetRunRight() > 0)
             {
-                Debug.Log("run right");
+                //Debug.Log("run right");
                 hudRef.NotifyMoveRight(movement, run);
                 return movement;
             }
@@ -148,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (hudRef.GetWalksRight() > 0)
             {
-                Debug.Log("Walk right");
+                //Debug.Log("Walk right");
                 hudRef.NotifyMoveRight(movement, run);
                 return movement;
             }
@@ -161,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (hudRef.GetRunLeft() > 0)
             {
-                Debug.Log("Run left");
+                //Debug.Log("Run left");
                 hudRef.NotifyMoveLeft(Mathf.Abs(movement), run);
                 return movement;
             }
@@ -174,7 +174,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (hudRef.GetWalksLeft() > 0)
             {
-                Debug.Log("Walk left");
+                //Debug.Log("Walk left");
                 hudRef.NotifyMoveLeft(Mathf.Abs(movement), run);
                 return movement;
             }
@@ -248,23 +248,32 @@ public class PlayerMovement : MonoBehaviour
         if (grapplePressed)
         {
             grapplePressed = false;
-            
+
             if (GameObject.FindGameObjectWithTag("hook") == null && hudRef.GetGrapples() > 0)
             {
-                Vector3 delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                Vector3 pos = this.transform.position;
+                if (Mathf.Abs(transform.rotation.eulerAngles.y) < Mathf.Epsilon)
+                {
+                    pos.x += 0.25f;
+                }
+                else
+                {
+                    pos.x -= 0.25f;
+                }
+
+                Vector3 delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - pos;
                 float theta = Mathf.Atan2(delta.y, delta.x);
 
                 float velX = Mathf.Cos(theta) * throwSpeed;
                 float velY = Mathf.Sin(theta) * throwSpeed;
 
                 Vector2 vel = new Vector2(velX, velY);
-                Vector3 position = this.transform.position;
 
                 //Debug.Log("Delta: " + delta + " Theta " + theta + " Rotation " + Mathf.Rad2Deg * -theta);
 
                 float z = Mathf.Rad2Deg * theta + 90.0f;
 
-                GameObject currentHook = Instantiate(hookRef, position, Quaternion.Euler(new Vector3(0, 0, z)));
+                GameObject currentHook = Instantiate(hookRef, pos, Quaternion.Euler(new Vector3(0, 0, z)));
                 GrapplingHook gh = currentHook.GetComponent<GrapplingHook>();
 
                 gh.InitialVelocity(vel.x, vel.y, this.gameObject);
