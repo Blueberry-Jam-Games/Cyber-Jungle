@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private bool onGround = false;
     
     private int stepNumber = 0;
+    private bool lastFrameGrounded = true;
 
     private bool jumpPressed = false;
     private bool grapplePressed = false;
@@ -40,13 +41,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown("space"))
         {
+            if (jumpPressed == false)
+                SoundManagerScript.PlaySound("jump");
             jumpPressed = true;
         }
         if (Input.GetMouseButtonDown(0))
         {
             grapplePressed = true;
         }
-
+        checkForLanding();
+	
+	
         //Check death condition
         if(hudRef.GetJumps() < 1 && hudRef.GetGrapples() < 1 && hudRef.GetWalksLeft() < Mathf.Epsilon && 
             hudRef.GetWalksRight() < Mathf.Epsilon && hudRef.GetRunLeft() < Mathf.Epsilon && hudRef.GetRunRight() < Mathf.Epsilon)
@@ -96,6 +101,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+        
 
         float multiplier = speed;
         bool run = false;
@@ -202,17 +208,32 @@ public class PlayerMovement : MonoBehaviour
     private void makeFootNoises() 
     {   
         
-        if (stepNumber == 15)
+        if (stepNumber == 20)
             SoundManagerScript.PlaySound("step1");
-        else if (stepNumber == 30)
+        else if (stepNumber == 40)
             SoundManagerScript.PlaySound("step2");
-        else if (stepNumber == 45)
+        else if (stepNumber == 60)
+            SoundManagerScript.PlaySound("step3");
+        else if (stepNumber == 80)
+            SoundManagerScript.PlaySound("step1");
+        else if (stepNumber == 100)
+            SoundManagerScript.PlaySound("step2");
+        else if (stepNumber == 120)
             SoundManagerScript.PlaySound("step3");
             
         stepNumber += 1;
-        if (stepNumber == 46)
+        if (stepNumber == 121)
             stepNumber = 1;
         
+    }
+
+    private void checkForLanding()
+    {
+        if (lastFrameGrounded == false && onGround == true)
+        {
+            SoundManagerScript.PlaySound("land");
+        }
+        lastFrameGrounded = onGround;
     }
 
     private void CheckGrapplingHook()
