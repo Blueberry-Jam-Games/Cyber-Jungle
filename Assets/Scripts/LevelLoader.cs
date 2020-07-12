@@ -29,7 +29,10 @@ public class LevelLoader : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        LoadNextLevel();
+        if(collision.gameObject.tag == "Player")
+        {
+            LoadNextLevel();
+        }
     }
 
     public void LoadNextLevel()
