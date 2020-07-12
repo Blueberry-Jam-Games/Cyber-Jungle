@@ -230,9 +230,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2622647195506228222}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 250
+  m_MaxValue: 1250
   m_WholeNumbers: 0
-  m_Value: 250
+  m_Value: 1250
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1058,9 +1058,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3056698818514561600}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 250
+  m_MaxValue: 1250
   m_WholeNumbers: 0
-  m_Value: 250
+  m_Value: 1250
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1258,9 +1258,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3936431843378312139}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 10
+  m_MaxValue: 20
   m_WholeNumbers: 0
-  m_Value: 10
+  m_Value: 20
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2046,9 +2046,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 7067217231292521188}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 250
+  m_MaxValue: 1500
   m_WholeNumbers: 0
-  m_Value: 250
+  m_Value: 1500
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2479,9 +2479,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 7067217230622084978}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 250
+  m_MaxValue: 1500
   m_WholeNumbers: 0
-  m_Value: 250
+  m_Value: 1500
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
