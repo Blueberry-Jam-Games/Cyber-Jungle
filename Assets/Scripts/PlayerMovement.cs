@@ -67,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
     private void DoDeath()
     {
         //Play sound effect.
+        SoundManagerScript.PlaySound("death");
         GameObject.FindGameObjectWithTag("Portal").GetComponent<LevelLoader>().ReloadLevel();
     }
 
