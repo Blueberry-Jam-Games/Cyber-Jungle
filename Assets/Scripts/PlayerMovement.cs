@@ -64,6 +64,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void DoPowerup()
+    {
+        hudRef.ApplyPowerup();
+    }
+
     private void DoDeath()
     {
         //Play sound effect.
