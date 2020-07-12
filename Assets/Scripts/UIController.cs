@@ -81,6 +81,18 @@ public class UIController : MonoBehaviour
         rightRun.SetActive(enabled);
     }
 
+    public void ApplyPowerup()
+    {
+        leftWalkSlide.value = leftWalkSlide.maxValue;
+        leftRunSlide.value = leftRunSlide.maxValue;
+
+        rightWalkSlide.value = rightWalkSlide.maxValue;
+        rightRunSlide.value = rightRunSlide.maxValue;
+
+        jumpSlide.value = jumpSlide.maxValue;
+        grappleSlide.value = grappleSlide.maxValue;
+    }
+
     public float GetWalksLeft()
     {
         return leftWalkSlide.value;
