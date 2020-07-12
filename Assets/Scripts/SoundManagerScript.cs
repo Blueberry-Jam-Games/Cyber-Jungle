@@ -11,7 +11,6 @@ public class SoundManagerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
         step1Sound = Resources.Load<AudioClip> ("step1");
         step2Sound = Resources.Load<AudioClip> ("step2");
         step3Sound = Resources.Load<AudioClip> ("step3");
@@ -24,13 +23,6 @@ public class SoundManagerScript : MonoBehaviour
         deathSound = Resources.Load<AudioClip> ("death");
 
         audioSrc = GetComponent<AudioSource> ();
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public static void PlaySound (string clip) {
@@ -67,5 +59,9 @@ public class SoundManagerScript : MonoBehaviour
             break;   
         }
     }
+}
 
+public enum BackgroundMusic
+{
+    ORIGINAL, BELLS, SAWS, MICROPULSE
 }
