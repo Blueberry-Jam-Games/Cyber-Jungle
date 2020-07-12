@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class PowerUp : MonoBehaviour
 {
+    public int maxMoveFrames = 40;
+    public float bounceSpeed = 0.01f;
+
+    private int moveFrames = 0;
+    private bool moveUp = true;
+
+    private void Start()
+    {
+        moveFrames = maxMoveFrames;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -18,6 +28,18 @@ public class PowerUp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.Rotate(new Vector3(0, 0, -1.0f));
+        float delta = bounceSpeed;
+        if (!moveUp)
+        {
+            delta *= -1;
+        }
+        transform.SetPositionAndRotation(new Vector3(transform.position.x, transform.position.y + delta, transform.position.z), transform.rotation);
+        moveFrames -= 1;
+    
+        if(moveFrames == 0)
+        {
+            moveUp = !moveUp;
+            moveFrames = maxMoveFrames;
+        }
     }
 }
