@@ -1,11 +1,11 @@
 # Moven't - GMTK Game Jam 2020 Submission
-!Logo[/docs/splash-small.png]
+!Logo[/docs/splash-small.bmp]
 
 Watch your step! Make it to the portal by walking, dashing. jumping, or grappling before the meters run out and you lose control. Enjoy full character animations, unique stage building, and original music while you play.
 
 Try it on [itch.io](https://zenith08.itch.io/movent)
 
-!Gameplay[/docs/gameplay.png]
+!Gameplay[/docs/gameplay.bmp]
 
 ## Credits:
 ### Programming:
